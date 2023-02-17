@@ -52,7 +52,7 @@ class GoogleController extends Controller
                     'name' => $user->name,
                     'email' => $user->email,
                     'provider_id'=> $providerId,
-                    'provider'=> 'google',
+                    'provider'=> 'google', 
                     'password' => encrypt('123456dummy')
                 ]);
       

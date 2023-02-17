@@ -59,34 +59,34 @@ class LoginController extends Controller
 
         $user = User::where('provider', $googleUser->id)->first();
         try {
-      
+
             $user = Socialite::driver('google')->user();
             $providerId = $user->getId();
             $finduser = User::where('provider_id', $providerId)->first();
-       
-            if($finduser){
-       
+
+            if ($finduser) {
+
                 Auth::login($finduser);
-      
-                /* return response([
+
+                return response([
                     'status' => 200,
                     'user' => $user
-                ]); */
-                return redirect('http://localhost:3000/');
-       
-            }else{
+                ]);
+            } else {
                 $newUser = User::create([
                     'name' => $user->name,
                     'email' => $user->email,
-                    'provider_id'=> $providerId,
-                    'provider'=> 'google',
+                    'provider_id' => $providerId,
+                    'provider' => 'google',
                     'password' => encrypt('123456dummy')
                 ]);
-      
-                Auth::login($newUser); 
-                return redirect('http://localhost:3000/');
+
+                Auth::login($newUser);
+                return response([
+                    'status' => 200,
+                    'user' => $user
+                ]);
             }
-      
         } catch (Exception $e) {
             dd($e->getMessage());
         }

@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::table('users', function ($table) {
             $table->string('provider')->nullable();
-            $table->double('provider_id')->nullable();
+            $table->double('provider_id')->nullable(); 
         });
     }
 
