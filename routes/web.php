@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\auth\LoginController; 
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\auth\LoginController;
+use App\Http\Controllers\UserController; 
 
 /*
 |--------------------------------------------------------------------------
@@ -15,10 +15,11 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/auth/google', [LoginController::class, 'redirectToGoogle']);
+/* Route::get('/auth/google', [LoginController::class, 'redirectToGoogle']);
 Route::get('/auth/google/callback', [LoginController::class, 'handleGoogleCallback']);
 
-
-Auth::routes();
+Route::get('/api/users', [UserController::class, 'index']);
+ */
+//Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
