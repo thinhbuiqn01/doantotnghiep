@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ListUserRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\SignupRequest;
 use App\Models\User;
@@ -16,7 +17,7 @@ class AuthController extends Controller
         $user = User::create([
             "name" => $data['name'],
             "email" => $data['email'],
-            "password" => bcrypt($data['name']),
+            "password" => bcrypt($data['password']),
         ]);
 
         $token = $user->createToken('main')->plainTextToken;
@@ -24,6 +25,24 @@ class AuthController extends Controller
         return response([
             "user" => $user,
             'token' => $token
+        ]);
+    }
+
+    public function insertList(Request $request)
+    {
+        /* can fig bug cho nay */
+        $user = User::all();
+        $data = $request->all();
+        for ($i = 0; $i < count($data); $i++) {
+            User::create([
+                'name' => $data[$i]['name'],
+                'email' => $data[$i]['email'],
+                'password' => bcrypt($data[$i]['password'])
+            ]);
+        }
+
+        return response([
+            "status" =>  $data,
         ]);
     }
     public function login(LoginRequest $request)
@@ -50,7 +69,7 @@ class AuthController extends Controller
     {
         $user = Auth::user();
         $user->currentAccessToken()->delete();
-        
+
         return response([
             'success' => true
         ]);
