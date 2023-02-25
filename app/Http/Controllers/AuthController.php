@@ -11,12 +11,27 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    public function signup(SignupRequest $request)
+
+    public function users($role)
     {
-        $data = $request->validated();
+        $users = User::where('role', "=", $role)->get();
+        if (count($users) > 0) {
+            return response([
+                "status" => 200,
+                'users' => $users
+            ]);
+        }
+    }
+
+    public function signup(Request $request)
+    {
+        $data = $request->all();
         $user = User::create([
             "name" => $data['name'],
             "email" => $data['email'],
+            'role' => 3,
+            'phone' => "",
+            'status' => false,
             "password" => bcrypt($data['password']),
         ]);
 
@@ -31,18 +46,24 @@ class AuthController extends Controller
     public function insertList(Request $request)
     {
         /* can fig bug cho nay */
-        $user = User::all();
+
         $data = $request->all();
         for ($i = 0; $i < count($data); $i++) {
             User::create([
                 'name' => $data[$i]['name'],
+                'role' => 1,
+                'status' => 1,
                 'email' => $data[$i]['email'],
+                'phone' => $data[$i]['phone'],
                 'password' => bcrypt($data[$i]['password'])
             ]);
         }
 
+        $user = User::all();
+
         return response([
-            "status" =>  $data,
+            "status" => 200,
+            '$user' => $user
         ]);
     }
     public function login(LoginRequest $request)
@@ -72,6 +93,20 @@ class AuthController extends Controller
 
         return response([
             'success' => true
+        ]);
+    }
+
+    public function update($id, Request $request)
+    {
+        $user = User::find($id);
+        $user->status = $request->status;
+        $user->phone = $request->phone;
+        $user->password = bcrypt($request->password);
+
+        $user->update();
+        return response([
+            "status" => 200,
+            "data" => $user
         ]);
     }
 }

@@ -22,6 +22,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/signup', [AuthController::class, 'signup']);
+Route::post('/users/{role}', [AuthController::class, 'users']);
+Route::post('/user/edit/{id}', [AuthController::class, 'update']);
 Route::post('/create-list-user', [AuthController::class, 'insertList']);
 
 Route::post('/login', [AuthController::class, 'login']);

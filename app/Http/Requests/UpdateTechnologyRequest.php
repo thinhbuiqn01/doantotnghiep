@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\Password;
 
-class SignupRequest extends FormRequest
+class UpdateTechnologyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +13,7 @@ class SignupRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -24,7 +23,8 @@ class SignupRequest extends FormRequest
      */
     public function rules()
     {
-        return [ 
+        return [
+            //
         ];
     }
 }
