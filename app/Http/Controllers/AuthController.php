@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
 {
 
-    public function users($role)
+    public function students($role)
     {
         $users = User::where('role', "=", $role)->get();
         if (count($users) > 0) {
@@ -21,6 +21,15 @@ class AuthController extends Controller
                 'users' => $users
             ]);
         }
+    }
+
+    public function index()
+    {
+        $users = User::all();
+        return response([
+            "status" => 'success',
+            "users" => $users
+        ]);
     }
 
     public function signup(Request $request)
@@ -74,7 +83,8 @@ class AuthController extends Controller
 
         if (!Auth::attempt($credentials, $remember)) {
             return response([
-                'error' => 'Thông tin đăng nhập cung cấp không chính xác '
+                'status' => 'error',
+                'message' => 'Thông tin đăng nhập cung cấp không chính xác '
             ], 442);
         }
 
@@ -83,6 +93,8 @@ class AuthController extends Controller
         $token = $user->createToken('main')->plainTextToken;
         return response([
             "user" => $user,
+            "status" => "success",
+            "message" => "Đăng nhập thành công",
             'token' => $token,
         ]);
     }
