@@ -4,16 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Fortify\TwoFactorAuthenticatable;
-use Laravel\Jetstream\HasProfilePhoto;
+
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
     use HasApiTokens;
     use HasFactory;
-    use Notifiable;
+    //use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -28,4 +26,14 @@ class User extends Authenticatable
         'status',
         'password',
     ];
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class, 'user_id', 'id');
+    }
+
+    public function businesses()
+    {
+        return $this->hasOne(Business::class, 'user_id', 'id');
+    }
 }

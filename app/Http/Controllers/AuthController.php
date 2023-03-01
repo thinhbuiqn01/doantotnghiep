@@ -54,9 +54,8 @@ class AuthController extends Controller
 
     public function insertList(Request $request)
     {
-        /* can fig bug cho nay */
-
         $data = $request->all();
+
         for ($i = 0; $i < count($data); $i++) {
             User::create([
                 'name' => $data[$i]['name'],
@@ -72,6 +71,7 @@ class AuthController extends Controller
 
         return response([
             "status" => 200,
+            'data' => $data,
             '$user' => $user
         ]);
     }
@@ -119,6 +119,63 @@ class AuthController extends Controller
         return response([
             "status" => 200,
             "data" => $user
+        ]);
+    }
+
+    public function getInform($id)
+    {
+        $inform = User::find($id)->notifications->toArray();
+
+        if ($inform) {
+            return response([
+                'status' => 'success',
+                'inform' => $inform,
+            ]);
+        } else {
+            return response([
+                'status' => 'error',
+                'inform' => [],
+            ]);
+        }
+    }
+
+    public function getInfo($id)
+    {
+        $info =  User::find($id)->businesses;
+        if ($info) {
+            return response([
+                'status' => 'success',
+                'data' => $info->toArray(),
+            ]);
+        } else {
+            return response([
+                'status' => 'error',
+            ]);
+        }
+    }
+
+
+    public function closeAccount($id)
+    {
+        $account = User::find($id);
+        $account->status = 0;
+        $account->update();
+
+        return response([
+            'status' => 'success',
+            'user' => $account
+        ]);
+    }
+
+    public function openAccount($id)
+    {
+        $account = User::find($id);
+        $account->status = 1;
+        $account->update();
+
+        return response([
+            'status' => 'success',
+            'user' => $account
         ]);
     }
 }

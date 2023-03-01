@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\BusinessStoreRequest;
 use App\Http\Requests\BusinessUpdateRequest;
+use App\Models\Business;
 use Illuminate\Http\Request;
 
 class BusinessController extends Controller
@@ -24,9 +25,24 @@ class BusinessController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(BusinessStoreRequest $request)
+    public function store(Request $request)
     {
-        //
+        $info = $request->all();
+        $data = Business::create([
+            "name" =>  $info['name'],
+            "scales" =>  $info['scales'],
+            "description" =>  $info['description'],
+            "location" =>  $info['location'],
+            "link_website" =>  $info['link_website'],
+            "image" =>  $info['image'],
+            "task" =>  $info['task'],
+            "user_id" =>  $info['user_id'],
+        ]);
+
+        return response([
+            'status' => 'success',
+            'data' => $data
+        ]);
     }
 
     /**
