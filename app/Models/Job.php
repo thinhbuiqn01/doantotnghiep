@@ -5,24 +5,26 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Notification extends Model
+class Job extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'name',
         'user_id',
-        'job_id',
-        'description',
+        'business_id',
+        'notification_id',
+        'status', 
     ];
 
     public function users()
     {
-        return $this->belongsTo(Notification::class);
+        return $this->belongsToMany(User::class);
     }
 
-    public function jobs()
+    public function notification()
     {
-        return $this->belongsTo(Job::class, 'job_id', 'id');
+        return $this->hasMany(Notification::class);
     }
+    
 }

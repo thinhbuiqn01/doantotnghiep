@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,13 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('notifications', function (Blueprint $table) {
-            $table->increments("id");
-            $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')
-                ->references('id');
-            $table->string('name');
+        Schema::create('job_details', function (Blueprint $table) {
+            $table->increments('id');
             $table->string('description');
+            $table->string('require_job');
+            $table->string('type_pay_salary');
+            $table->string('location_jobs');
+            $table->string('email_take_cv');
+            $table->integer('job_id')->unsigned()->nullable();
+            $table->foreign('job_id')->references('id')->on('jobs')->onDelete('cascade');
+
             $table->timestamps();
         });
     }
@@ -32,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('notifications');
+        Schema::dropIfExists('job_details');
     }
 };

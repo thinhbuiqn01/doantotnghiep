@@ -13,17 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('businesses', function (Blueprint $table) {
-            $table->increments("id");
-            $table->string('name');
-            $table->string('scales');
-            $table->string('description');
-            $table->string('link_website');
-            $table->string('image')->nullable();
-            $table->string('location');
-            $table->string('task');
+        Schema::create('hires', function (Blueprint $table) {
+            $table->increments('id');
             $table->integer('user_id')->unsigned()->nullable();
+            $table->integer('job_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('job_id')->references('id')->on('jobs')->onDelete('cascade');
+            $table->string('email_user');
+            $table->string('email_business');
+            $table->string('cv');
+            $table->string('phone_user');
             $table->timestamps();
         });
     }
@@ -35,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('businesses');
+        Schema::dropIfExists('hires');
     }
 };

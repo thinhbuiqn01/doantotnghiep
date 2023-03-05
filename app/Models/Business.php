@@ -19,4 +19,9 @@ class Business extends Model
         'task', 
         'user_id',
     ];
+
+    public function users()
+    {
+        return $this->hasOne(User::class, 'user_id', 'id');
+    }
 }

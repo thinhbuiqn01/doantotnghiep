@@ -15,7 +15,15 @@ class TechnologyController extends Controller
      */
     public function index()
     {
-        //
+        $tech = Technology::all();
+        if ($tech) {
+            return response([
+                'status' => 'success',
+                'tech' => $tech
+            ]);
+        } else {
+            return response(['status' => 'false']);
+        }
     }
 
     /**

@@ -5,24 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Notification extends Model
+class JobDetail extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'name',
-        'user_id',
         'job_id',
-        'description',
+        'description', 
+        'type_pay_salary', 
+        'location_job', 
+        'email_give_job', 
+        'require_job',  
     ];
-
-    public function users()
-    {
-        return $this->belongsTo(Notification::class);
-    }
 
     public function jobs()
     {
-        return $this->belongsTo(Job::class, 'job_id', 'id');
+        return $this->hasOne(Jobs::class, 'job_id', 'id');
     }
 }

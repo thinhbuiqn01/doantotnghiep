@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\TechnologyController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -47,3 +48,7 @@ Route::get('get-info/{id}', [AuthController::class, 'getInfo']);
 Route::post('extra-info', [BusinessController::class, 'store']);
 Route::post('account-close/{id}', [AuthController::class, 'closeAccount']);
 Route::post('account-open/{id}', [AuthController::class, 'openAccount']);
+
+
+/* Technology */
+Route::get('technologies', [TechnologyController::class, 'index']);
