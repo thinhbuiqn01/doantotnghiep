@@ -18,7 +18,6 @@ class TechnologyController extends Controller
         $tech = Technology::all();
         if ($tech) {
             return response([
-                'status' => 'success',
                 'tech' => $tech
             ]);
         } else {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ListUserRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\SignupRequest;
+use App\Models\Business;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -38,9 +39,9 @@ class AuthController extends Controller
         $user = User::create([
             "name" => $data['name'],
             "email" => $data['email'],
-            'role' => 3,
+            'role' =>  3,
             'phone' => "",
-            'status' => false,
+            'status' =>  0,
             "password" => bcrypt($data['password']),
         ]);
 
@@ -49,6 +50,23 @@ class AuthController extends Controller
         return response([
             "user" => $user,
             'token' => $token
+        ]);
+    }
+
+    public function createAccountSchool(Request $request)
+    {
+        $data = $request->all();
+        $user = User::create([
+            "name" => $data['name'],
+            "email" => $data['email'],
+            'role' => $data['role'],
+            'phone' => $data['phone'],
+            'status' => $data['status'],
+            "password" => bcrypt($data['password']),
+        ]);
+
+        return response([
+            "user" =>  $user,
         ]);
     }
 
@@ -124,9 +142,10 @@ class AuthController extends Controller
 
     public function getInform($id)
     {
-        $inform = User::find($id)->notifications->toArray();
+        $inform = User::find($id)->notifications;
 
         if ($inform) {
+            $inform->toArray();
             return response([
                 'status' => 'success',
                 'inform' => $inform,
@@ -157,7 +176,7 @@ class AuthController extends Controller
 
     public function closeAccount($id)
     {
-        $account = User::find($id);
+        $account = User::find($id); 
         $account->status = 0;
         $account->update();
 
@@ -170,12 +189,21 @@ class AuthController extends Controller
     public function openAccount($id)
     {
         $account = User::find($id);
+
         $account->status = 1;
         $account->update();
 
         return response([
             'status' => 'success',
             'user' => $account
+        ]);
+    }
+
+    public function getBusiness($id)
+    {
+        $business = User::find($id)->businesses;
+        return response([
+            'business' => $business
         ]);
     }
 }

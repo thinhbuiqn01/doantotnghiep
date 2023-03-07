@@ -19,6 +19,7 @@ class BusinessController extends Controller
         //
     }
 
+
     /**
      * Store a newly created resource in storage.
      *
@@ -28,20 +29,20 @@ class BusinessController extends Controller
     public function store(Request $request)
     {
         $info = $request->all();
+
         $data = Business::create([
             "name" =>  $info['name'],
             "scales" =>  $info['scales'],
             "description" =>  $info['description'],
             "location" =>  $info['location'],
             "link_website" =>  $info['link_website'],
-            "image" =>  $info['image'],
             "task" =>  $info['task'],
+            "image" => '',
+            'status' => 0,
             "user_id" =>  $info['user_id'],
         ]);
-
         return response([
             'status' => 'success',
-            'data' => $data
         ]);
     }
 

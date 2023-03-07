@@ -28,12 +28,34 @@ class NotificationController extends Controller
         $inform = request()->all();
         $nofity = Notification::create([
             'user_id' => $inform['user_id'],
+            'job_id' => $inform['job_id'],
             'name' => $inform['name'],
             'description' => $inform['description']
         ]);
-        return response([
-            "data" => $nofity
+        if ($nofity) {
+            return response([
+                "data" => $nofity
+            ]);
+        } else {
+
+            return response([
+                "data" => []
+            ]);
+        }
+    }
+    public function storeInformJob(Request $request)
+    {
+        $inform = $request->all();
+        $nofity = Notification::create([
+            'name' => $inform['name'],
+            'description' => $inform['description'],
+            'job_id' => $inform['job_id'],
+            'role_take' => $inform['role_take'],
+            'status' => $inform['status'],
         ]);
+        return response(
+            ['status' => $nofity]
+        );
     }
 
     /**
@@ -44,6 +66,14 @@ class NotificationController extends Controller
      */
     public function storeInforms(StoreNotificationRequest $request)
     {
+    }
+
+    public function informJobSchool()
+    {
+        $inform = Notification::where('role_take', 2)->get();
+        return response([
+            'notification' => $inform
+        ]);
     }
 
     /**
@@ -88,7 +118,7 @@ class NotificationController extends Controller
      */
     public function destroy($id)
     {
-        $inform = Notification::find($id); 
+        $inform = Notification::find($id);
         $inform->delete();
         return response([
             'status' => 200

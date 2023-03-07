@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Job;
 use App\Http\Requests\StoreJobRequest;
 use App\Http\Requests\UpdateJobRequest;
+use Illuminate\Http\Request;
 
 class JobController extends Controller
 {
@@ -13,9 +14,18 @@ class JobController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        //
+        $jobs = Job::all();
+        if ($jobs) {
+            return response([
+                'jobs' => $jobs,
+            ]);
+        } else {
+            return response([
+                'fail'
+            ]);
+        }
     }
 
     /**
@@ -34,9 +44,24 @@ class JobController extends Controller
      * @param  \App\Http\Requests\StoreJobRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreJobRequest $request)
+    public function store(Request $request)
     {
-        //
+        $jobs = $request->all();
+
+        $data = Job::create([
+            'name_job' => $jobs['name'],
+            'description' => $jobs['description'],
+            'require_job' => $jobs['requireJob'],
+            'location' => $jobs['locationWork'],
+            'tech_using' => $jobs['techUsing'],
+            'email_give' => $jobs['emailGiveCV'],
+            'business_id' => $jobs['business_id'],
+            'status' => $jobs['status'],
+        ]);
+
+        return response([
+            'data' => $data
+        ]);
     }
 
     /**
@@ -45,9 +70,18 @@ class JobController extends Controller
      * @param  \App\Models\Job  $job
      * @return \Illuminate\Http\Response
      */
-    public function show(Job $job)
+    public function show($job)
     {
-        //
+        $jobs = Job::where('business_id', $job)->get();
+        if (!$jobs) {
+            return response([
+                'data' => 'Hiện công ty chưa có bài tuyển nào'
+            ]);
+        } else {
+            return response([
+                'jobs' => $jobs
+            ]);
+        }
     }
 
     /**
@@ -68,9 +102,20 @@ class JobController extends Controller
      * @param  \App\Models\Job  $job
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateJobRequest $request, Job $job)
+    public function update(Request $request, $job)
     {
-        //
+        $updateJob = $request->all();
+        $job = Job::find($job);
+        $job->name_job = $updateJob['name_job'];
+        $job->tech_using = $updateJob['tech_using'];
+        $job->description = $updateJob['description'];
+        $job->require_job = $updateJob['require_job'];
+        $job->email_give = $updateJob['email_give'];
+
+        $job->update();
+        return response([
+            'jobEdit' => $job
+        ]);
     }
 
     /**

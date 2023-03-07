@@ -16,12 +16,17 @@ class Business extends Model
         'link_website',
         'location',
         'image',
-        'task', 
+        'task',
+        'status',
         'user_id',
     ];
 
     public function users()
     {
         return $this->hasOne(User::class, 'user_id', 'id');
+    }
+    public function jobs()
+    {
+        return $this->hasMany(Job::class, 'job_id', 'id');
     }
 }

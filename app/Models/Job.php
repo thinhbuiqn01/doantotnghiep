@@ -10,11 +10,14 @@ class Job extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'user_id',
+        'name_job',
+        'tech_using',
+        'description',
+        'require_job',
+        'location',
+        'email_give',
+        'status',
         'business_id',
-        'notification_id',
-        'status', 
     ];
 
     public function users()
@@ -26,5 +29,9 @@ class Job extends Model
     {
         return $this->hasMany(Notification::class);
     }
-    
+
+    public function businesses()
+    {
+        return $this->belongsTo(Business::class);
+    }
 }

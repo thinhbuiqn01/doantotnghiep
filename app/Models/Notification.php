@@ -14,6 +14,8 @@ class Notification extends Model
         'user_id',
         'job_id',
         'description',
+        'role_take',
+        'status',
     ];
 
     public function users()
