@@ -119,10 +119,11 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         $user = Auth::user();
-        $user->currentAccessToken()->delete();
+        //$user->currentAccessToken()->delete();
 
         return response([
-            'success' => true
+            'success' => true,
+            'user' => $user
         ]);
     }
 
@@ -152,7 +153,6 @@ class AuthController extends Controller
             ]);
         } else {
             return response([
-                'status' => 'error',
                 'inform' => [],
             ]);
         }
@@ -176,7 +176,7 @@ class AuthController extends Controller
 
     public function closeAccount($id)
     {
-        $account = User::find($id); 
+        $account = User::find($id);
         $account->status = 0;
         $account->update();
 

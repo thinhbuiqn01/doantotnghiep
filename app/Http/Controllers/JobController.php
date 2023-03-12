@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Job;
 use App\Http\Requests\StoreJobRequest;
 use App\Http\Requests\UpdateJobRequest;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class JobController extends Controller
@@ -26,6 +27,14 @@ class JobController extends Controller
                 'fail'
             ]);
         }
+    }
+
+    public function jobInfo($id)
+    {
+        $job = Job::find($id);
+        return response([
+            'job' => $job
+        ]);
     }
 
     /**
@@ -127,5 +136,22 @@ class JobController extends Controller
     public function destroy(Job $job)
     {
         //
+    }
+
+
+    public function jobHot()
+    {
+
+        $jobs = Job::join('businesses', 'jobs.business_id', '=', 'businesses.id')
+            ->orderBy('jobs.updated_at', 'desc')
+            ->get(array(
+                'updated_at' => 'jobs.updated_at',
+                'nameJob' => 'jobs.name_job',
+                'nameCompany' => 'businesses.name',
+                'idJob' => 'jobs.id'
+            ));
+        return response([
+            'jobs' => $jobs
+        ]);
     }
 }

@@ -5,6 +5,7 @@ use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TechnologyController;
+use App\Http\Controllers\UserController;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,18 +28,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/signup', [AuthController::class, 'signup']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout']);
+
 Route::post('/create-account-school', [AuthController::class, 'createAccountSchool']);
 Route::post('/users', [AuthController::class, 'index']);
 Route::post('/students/{role}', [AuthController::class, 'students']);
 Route::post('/user/edit/{id}', [AuthController::class, 'update']);
 Route::post('/create-list-user', [AuthController::class, 'insertList']);
 
-Route::post('/login', [AuthController::class, 'login']);
 
-/* Route::get('1-m', function () {
-    $data = User::find(1)->notifications->toArray();
-    dd($data);
-}); */
 Route::get('inform/{id}', [AuthController::class, 'getInform']);
 
 Route::get('inform-job-school', [NotificationController::class, 'informJobSchool']);
@@ -69,5 +68,9 @@ Route::post('give-job', [JobController::class, 'store']);
 
 /* Jobs*/
 Route::get('jobs', [JobController::class, 'index']);
+Route::get('job/{id}', [JobController::class, 'jobInfo']);
 Route::get('jobs/{id}', [JobController::class, 'show']);
 Route::post('job-edit/{id}', [JobController::class, 'update']);
+Route::post('/jobs-hot',[JobController::class, 'jobHot']);
+Route::post('/admin/user/delete/{id}', [UserController::class, 'deleteUser']);
+
