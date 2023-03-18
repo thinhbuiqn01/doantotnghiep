@@ -64,13 +64,15 @@ Route::get('technologies', [TechnologyController::class, 'index']);
 
 Route::get('business/{id}', [AuthController::class, 'getBusiness']);
 Route::post('give-job', [JobController::class, 'store']);
-
+Route::get('business-hot', [BusinessController::class, 'bsnHot']);
 
 /* Jobs*/
-Route::get('jobs', [JobController::class, 'index']);
 Route::get('job/{id}', [JobController::class, 'jobInfo']);
 Route::get('jobs/{id}', [JobController::class, 'show']);
 Route::post('job-edit/{id}', [JobController::class, 'update']);
-Route::post('/jobs-hot',[JobController::class, 'jobHot']);
+Route::post('/jobs-hot', [JobController::class, 'jobHot']);
+Route::get('jobs', [JobController::class, 'index']);
 Route::post('/admin/user/delete/{id}', [UserController::class, 'deleteUser']);
-
+Route::get('jobs-confirm', [JobController::class, 'jobsConfirm']);
+Route::post('job-status-edit/{idJob}', [JobController::class, 'editStatusJob']);
+Route::post('job-delete-inform', [JobController::class, 'deleteInform']);

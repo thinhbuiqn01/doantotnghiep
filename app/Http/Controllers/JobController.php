@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Job;
 use App\Http\Requests\StoreJobRequest;
 use App\Http\Requests\UpdateJobRequest;
+use App\Models\Notification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -42,9 +43,25 @@ class JobController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+
+    public function deleteInform(Request $request)
     {
-        //
+        $res = $request->all();
+
+        $inform = Notification::where('role_take', "=", $res['role_take'])
+            ->where('job_id', "=", $res['job_id'])
+            ->delete();
+        return response([
+            'inform' => $inform
+        ]);
+    }
+
+    public function jobsConfirm()
+    {
+        $jobs = Job::where('status', '=', 1)->get();
+        return response([
+            'jobs' => $jobs
+        ]);
     }
 
     /**
@@ -70,6 +87,22 @@ class JobController extends Controller
 
         return response([
             'data' => $data
+        ]);
+    }
+
+    public function editStatusJob(Request $request, $idJob)
+    {
+        $res = $request->all();
+        $job = Job::find($idJob);
+
+
+        $job->status = $res['status'];
+
+        $job->update();
+
+
+        return response([
+            'job' => $res
         ]);
     }
 

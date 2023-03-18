@@ -16,8 +16,7 @@ class Business extends Model
         'link_website',
         'location',
         'image',
-        'task',
-        'status',
+        'task', 
         'user_id',
     ];
 

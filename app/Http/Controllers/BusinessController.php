@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\BusinessStoreRequest;
 use App\Http\Requests\BusinessUpdateRequest;
 use App\Models\Business;
+use App\Models\Job;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BusinessController extends Controller
 {
@@ -16,7 +18,28 @@ class BusinessController extends Controller
      */
     public function index()
     {
-        //
+        //  
+    }
+    public function bsnHot()
+    {
+        $business = DB::table('businesses')
+            ->join('jobs', 'jobs.business_id', '=', 'businesses.id')
+            ->select(DB::raw('businesses.id, businesses.name, businesses.description, businesses.location, businesses.image , COUNT(jobs.business_id) AS total_job'))
+            ->groupBy('jobs.business_id')
+            ->orderBy('jobs.business_id')
+            ->limit(4)
+            ->get();
+
+
+        /* $jobs = DB::table('jobs')
+            ->selectRaw('business_id, count(business_id) as job_count')
+            ->join('businesses', 'jobs.business_id', '=', 'businesses.id')
+            ->groupBy('business_id')
+            ->orderByDesc('job_count')
+            ->limit(4)
+            ->get(); */
+
+        return  $business;
     }
 
 
@@ -38,7 +61,6 @@ class BusinessController extends Controller
             "link_website" =>  $info['link_website'],
             "task" =>  $info['task'],
             "image" => '',
-            'status' => 0,
             "user_id" =>  $info['user_id'],
         ]);
         return response([
