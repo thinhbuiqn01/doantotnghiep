@@ -16,7 +16,7 @@ class JobController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index()
     {
         $jobs = Job::all();
         if ($jobs) {
@@ -62,6 +62,12 @@ class JobController extends Controller
         return response([
             'jobs' => $jobs
         ]);
+    }
+
+    public function jobFull()
+    {
+        $jobs = Job::join('businesses', 'businesses.id', '=', 'jobs.business_id')->get();
+        return response($jobs);
     }
 
     /**

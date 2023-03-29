@@ -71,6 +71,7 @@ Route::get('job/{id}', [JobController::class, 'jobInfo']);
 Route::get('jobs/{id}', [JobController::class, 'show']);
 Route::post('job-edit/{id}', [JobController::class, 'update']);
 Route::post('/jobs-hot', [JobController::class, 'jobHot']);
+Route::get('jobs-full', [JobController::class, 'jobFull']);
 Route::get('jobs', [JobController::class, 'index']);
 Route::post('/admin/user/delete/{id}', [UserController::class, 'deleteUser']);
 Route::get('jobs-confirm', [JobController::class, 'jobsConfirm']);
