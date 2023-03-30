@@ -8,6 +8,7 @@ use App\Models\Business;
 use App\Models\Job;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class BusinessController extends Controller
 {
@@ -52,7 +53,6 @@ class BusinessController extends Controller
     public function store(Request $request)
     {
         $info = $request->all();
-
         $data = Business::create([
             "name" =>  $info['name'],
             "scales" =>  $info['scales'],
@@ -63,9 +63,41 @@ class BusinessController extends Controller
             "image" => '',
             "user_id" =>  $info['user_id'],
         ]);
-        return response([
-            'status' => 'success',
-        ]);
+        //return response($info);
+    }
+    public function storeImage(Request $request, $id)
+    {
+        $response = [];
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'images' => 'required',
+                'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response()->json(["status" => "failed", "message" => "Validation error", "errors" => $validator->errors()]);
+        }
+        $info = $request->all();
+        if ($request->has('images')) {
+            foreach ($request->file('images') as $image) {
+                $filename = time() . rand(3, 9) . '.' . $image->getClientOriginalExtension();
+                $image->move('uploads/', $filename);
+
+                Business::where('user_id', $id)
+                    ->update(['image' =>  $filename]);
+            }
+
+            $response["status"] = "successs";
+            $response["message"] = "Success! image(s) uploaded";
+        } else {
+            $response["status"] = "failed";
+            $response["message"] = "Failed! image(s) not uploaded";
+        }
+        $business = Business::where('user_id', $id)->get();
+
+        return response()->json($business);
     }
 
     /**

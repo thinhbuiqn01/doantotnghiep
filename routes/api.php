@@ -51,6 +51,7 @@ Route::post('create-inform-job-school', [NotificationController::class, 'storeIn
 
 
 
+Route::post('extra-info-image/{id}', [BusinessController::class, 'storeImage']);
 Route::post('extra-info', [BusinessController::class, 'store']);
 Route::post('account-close/{id}', [AuthController::class, 'closeAccount']);
 Route::post('account-open/{id}', [AuthController::class, 'openAccount']);
