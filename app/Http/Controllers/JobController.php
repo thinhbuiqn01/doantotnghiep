@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Job;
 use App\Http\Requests\StoreJobRequest;
 use App\Http\Requests\UpdateJobRequest;
+use App\Models\Business;
 use App\Models\Notification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -101,14 +102,12 @@ class JobController extends Controller
         $res = $request->all();
         $job = Job::find($idJob);
 
-
         $job->status = $res['status'];
 
         $job->update();
 
-
         return response([
-            'job' => $res
+            'job' => $job
         ]);
     }
 
@@ -120,8 +119,8 @@ class JobController extends Controller
      */
     public function show($job)
     {
-        $jobs = Job::where('business_id', $job)->get();
-        if (!$jobs) {
+        $jobs = Job::where('user_id', $job)->get();
+        if ($jobs) {
             return response([
                 'data' => 'Hiện công ty chưa có bài tuyển nào'
             ]);
@@ -130,6 +129,12 @@ class JobController extends Controller
                 'jobs' => $jobs
             ]);
         }
+    }
+
+    public function jobByBusiness($id)
+    {
+        $jobs = Job::where('business_id', $id)->get();
+        return response($jobs);
     }
 
     /**

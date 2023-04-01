@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\JobController;
@@ -74,7 +75,11 @@ Route::post('job-edit/{id}', [JobController::class, 'update']);
 Route::post('/jobs-hot', [JobController::class, 'jobHot']);
 Route::get('jobs-full', [JobController::class, 'jobFull']);
 Route::get('jobs', [JobController::class, 'index']);
+Route::get('job-by-id-business/{id}', [JobController::class, 'jobByBusiness']);
 Route::post('/admin/user/delete/{id}', [UserController::class, 'deleteUser']);
 Route::get('jobs-confirm', [JobController::class, 'jobsConfirm']);
 Route::post('job-status-edit/{idJob}', [JobController::class, 'editStatusJob']);
 Route::post('job-delete-inform', [JobController::class, 'deleteInform']);
+
+
+Route::get('address/local', [AddressController::class, 'index']);
