@@ -10,6 +10,9 @@ class Technology extends Model
     use HasFactory;
     protected $fillable = [
         'name',
+        'link_page',
+        'description',
+        'image',
         'status',
     ];
 }

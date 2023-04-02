@@ -36,6 +36,8 @@ Route::post('/create-account-school', [AuthController::class, 'createAccountScho
 Route::post('/users', [AuthController::class, 'index']);
 Route::post('/students/{role}', [AuthController::class, 'students']);
 Route::post('/user/edit/{id}', [AuthController::class, 'update']);
+Route::post('/admin/user/{id}/update', [UserController::class, 'update']);
+Route::get('/admin/user/{id}', [UserController::class, 'show']);
 Route::post('/create-list-user', [AuthController::class, 'insertList']);
 
 
@@ -60,6 +62,8 @@ Route::post('account-open/{id}', [AuthController::class, 'openAccount']);
 
 /* Technology */
 Route::get('technologies', [TechnologyController::class, 'index']);
+Route::post('technologies/create', [TechnologyController::class, 'store']);
+Route::post('technologies/image-store/{id}', [TechnologyController::class, 'storeImage']);
 
 
 /* Business */
@@ -74,12 +78,15 @@ Route::get('jobs/{id}', [JobController::class, 'show']);
 Route::post('job-edit/{id}', [JobController::class, 'update']);
 Route::post('/jobs-hot', [JobController::class, 'jobHot']);
 Route::get('jobs-full', [JobController::class, 'jobFull']);
+
 Route::get('jobs', [JobController::class, 'index']);
 Route::get('job-by-id-business/{id}', [JobController::class, 'jobByBusiness']);
 Route::post('/admin/user/delete/{id}', [UserController::class, 'deleteUser']);
 Route::get('jobs-confirm', [JobController::class, 'jobsConfirm']);
 Route::post('job-status-edit/{idJob}', [JobController::class, 'editStatusJob']);
 Route::post('job-delete-inform', [JobController::class, 'deleteInform']);
+
+Route::get('/admin/businesses', [BusinessController::class, 'index']);
 
 
 Route::get('address/local', [AddressController::class, 'index']);

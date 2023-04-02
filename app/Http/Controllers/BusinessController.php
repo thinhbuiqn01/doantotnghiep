@@ -19,7 +19,14 @@ class BusinessController extends Controller
      */
     public function index()
     {
-        //  
+        $businesses = DB::table('businesses')
+            ->join('jobs', 'jobs.business_id', '=', 'businesses.id')
+            ->select(DB::raw('businesses.id, businesses.name, businesses.image, businesses.description, businesses.location, businesses.image , COUNT(jobs.business_id) AS total_job'))
+            ->groupBy('businesses.id')
+            ->orderBy('jobs.business_id')
+            ->get();
+
+        return response($businesses);
     }
     public function bsnHot()
     {
