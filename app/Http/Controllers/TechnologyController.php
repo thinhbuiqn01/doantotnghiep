@@ -87,9 +87,10 @@ class TechnologyController extends Controller
      * @param  \App\Models\Technology  $technology
      * @return \Illuminate\Http\Response
      */
-    public function show(Technology $technology)
+    public function show($id)
     {
-        //
+        $tech = Technology::find($id);
+        return response($tech);
     }
 
     /**
@@ -99,9 +100,16 @@ class TechnologyController extends Controller
      * @param  \App\Models\Technology  $technology
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateTechnologyRequest $request, Technology $technology)
+    public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        $tech =  Technology::find($id); 
+        $tech->name = $data['name'];
+        $tech->description  = $data['description'];
+        $tech->status =  $data['status'];
+        $tech->link_page = $data['link_page'];
+        $tech->update();
+        return response($tech);
     }
 
     /**

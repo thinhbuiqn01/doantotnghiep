@@ -3,6 +3,7 @@
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BusinessController;
+use App\Http\Controllers\HireController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TechnologyController;
@@ -62,6 +63,8 @@ Route::post('account-open/{id}', [AuthController::class, 'openAccount']);
 
 /* Technology */
 Route::get('technologies', [TechnologyController::class, 'index']);
+Route::get('technologies/{id}', [TechnologyController::class, 'show']);
+Route::post('technologies/update/{id}', [TechnologyController::class, 'update']);
 Route::post('technologies/create', [TechnologyController::class, 'store']);
 Route::post('technologies/image-store/{id}', [TechnologyController::class, 'storeImage']);
 
@@ -71,6 +74,8 @@ Route::post('technologies/image-store/{id}', [TechnologyController::class, 'stor
 Route::get('business/{id}', [AuthController::class, 'getBusiness']);
 Route::post('give-job', [JobController::class, 'store']);
 Route::get('business-hot', [BusinessController::class, 'bsnHot']);
+Route::get('business-job/{id}', [BusinessController::class, 'allInformation']);
+
 
 /* Jobs*/
 Route::get('job/{id}', [JobController::class, 'jobInfo']);
@@ -90,3 +95,9 @@ Route::get('/admin/businesses', [BusinessController::class, 'index']);
 
 
 Route::get('address/local', [AddressController::class, 'index']);
+
+/* Hire */
+
+Route::post('hire/upload', [HireController::class, 'store']);
+Route::post('hire/upload/cv/{id}', [HireController::class, 'updateCV']);
+Route::get('hire', [HireController::class, 'index']);

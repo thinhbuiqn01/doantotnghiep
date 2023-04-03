@@ -50,6 +50,16 @@ class BusinessController extends Controller
         return  $business;
     }
 
+    public function allInformation($id)
+    {
+        $business = Business::find($id);
+        $jobs = Job::where('business_id', '=', $id)->get();
+        return response([
+            'business' => $business,
+            'jobs' =>  $jobs
+        ]);
+    }
+
 
     /**
      * Store a newly created resource in storage.
