@@ -42,6 +42,9 @@ Route::get('/admin/user/{id}', [UserController::class, 'show']);
 Route::post('/create-list-user', [AuthController::class, 'insertList']);
 
 
+Route::get('student', [UserController::class, 'student']);
+
+
 Route::get('inform/{id}', [AuthController::class, 'getInform']);
 
 Route::get('inform-job-school', [NotificationController::class, 'informJobSchool']);

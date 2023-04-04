@@ -14,7 +14,15 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::all();
+
+        return response($users);
+    }
+
+    public function student()
+    {
+        $students = User::where("role", "=", 1)->get();
+        return response($students);
     }
 
     /**

@@ -28,18 +28,30 @@ class HireController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        $response = [];
+        $hires = Hire::where('user_id', $data['user_id'])
+            ->where('job_id', $data['job_id'])
+            ->get();
 
-        $hire =  Hire::create([
-            'user_id' => $data['user_id'],
-            'business_id' => $data['business_id'],
-            'job_id' => $data['job_id'],
-            'phone_student' => $data['phone_student'],
-            'name_student' => $data['name_student'],
-            'email_student' => $data['email_student'],
-            'status' => $data['status'],
-        ]);
+        if (count($hires) == 0) {
 
-        return response($hire);
+            $hire =  Hire::create([
+                'user_id' => $data['user_id'],
+                'business_id' => $data['business_id'],
+                'job_id' => $data['job_id'],
+                'phone_student' => $data['phone_student'],
+                'name_student' => $data['name_student'],
+                'email_student' => $data['email_student'],
+                'status' => $data['status'],
+            ]);
+            return response($hire);
+        } else {
+            $response["message"] = 'Bạn đã ứng tuyển, vui lòng chờ kết quả từ nhà tuyển dụng';
+            return response([
+                'status' => 'error',
+                'response' => $response
+            ]);
+        }
     }
 
     /**
@@ -62,22 +74,31 @@ class HireController extends Controller
      */
     public function updateCV(Request $request, $id)
     {
-        if ($request->has('images')) {
-            foreach ($request->file('images') as $image) {
-                $filename = time() . rand(3, 9) . '.' . $image->getClientOriginalExtension();
-                $image->move('pdf/', $filename);
+        $response = [];
+        if ($id) {
 
-                Hire::where('id', $id)
-                    ->update(['cv' =>  $filename]);
+            if ($request->has('images')) {
+                foreach ($request->file('images') as $image) {
+                    $filename = time() . rand(3, 9) . '.' . $image->getClientOriginalExtension();
+                    $image->move('pdf/', $filename);
+
+                    Hire::where('id', $id)
+                        ->update(['cv' =>  $filename]);
+                }
+
+                $response["status"] = "successs";
+                $response["message"] = "Success! image(s) uploaded";
+            } else {
+                $response["status"] = "failed";
+                $response["message"] = "Failed! image(s) not uploaded";
             }
 
-            $response["status"] = "successs";
-            $response["message"] = "Success! image(s) uploaded";
+            return response($response);
         } else {
             $response["status"] = "failed";
             $response["message"] = "Failed! image(s) not uploaded";
+            return response($response);
         }
-        return response($response);
     }
 
     /**

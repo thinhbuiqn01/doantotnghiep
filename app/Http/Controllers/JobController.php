@@ -190,6 +190,7 @@ class JobController extends Controller
             ->orderBy('jobs.updated_at', 'desc')
             ->get(array(
                 'updated_at' => 'jobs.updated_at',
+                'business_id' => 'jobs.business_id',
                 'nameJob' => 'jobs.name_job',
                 'nameCompany' => 'businesses.name',
                 'idJob' => 'jobs.id'
