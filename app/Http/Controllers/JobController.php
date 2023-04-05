@@ -31,6 +31,14 @@ class JobController extends Controller
         }
     }
 
+    public function jobOfBusiness($id)
+    {
+        $jobs = Job::where('business_id', '=', $id)->get();
+        
+        return response($jobs);
+    }
+
+
     public function jobInfo($id)
     {
         $job = Job::find($id);

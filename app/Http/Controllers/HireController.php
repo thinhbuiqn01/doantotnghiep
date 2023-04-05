@@ -101,6 +101,13 @@ class HireController extends Controller
         }
     }
 
+
+    public function hireOfBusiness($idJob)
+    {
+        $hires = Hire::where('job_id', '=', $idJob)->get();
+        return response($hires);
+    }
+
     /**
      * Remove the specified resource from storage.
      *

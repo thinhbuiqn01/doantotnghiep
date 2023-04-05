@@ -20,6 +20,14 @@ class AddressController extends Controller
         return response(['province' => $province, 'district' => $district, 'ward' => $ward]);
     }
 
+    public function ward()
+    {
+        $ward = DB::table('district')->get();
+
+        return response(['ward' => $ward]);
+    }
+
+
     /**
      * Store a newly created resource in storage.
      *

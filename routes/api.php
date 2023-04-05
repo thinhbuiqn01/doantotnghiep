@@ -87,6 +87,10 @@ Route::post('job-edit/{id}', [JobController::class, 'update']);
 Route::post('/jobs-hot', [JobController::class, 'jobHot']);
 Route::get('jobs-full', [JobController::class, 'jobFull']);
 
+/* Jobs of Business */
+Route::get('business/jobs/{id}', [JobController::class, 'jobOfBusiness']);
+
+
 Route::get('jobs', [JobController::class, 'index']);
 Route::get('job-by-id-business/{id}', [JobController::class, 'jobByBusiness']);
 Route::post('/admin/user/delete/{id}', [UserController::class, 'deleteUser']);
@@ -98,9 +102,12 @@ Route::get('/admin/businesses', [BusinessController::class, 'index']);
 
 
 Route::get('address/local', [AddressController::class, 'index']);
+Route::get('address/ward/local', [AddressController::class, 'ward']);
 
 /* Hire */
 
 Route::post('hire/upload', [HireController::class, 'store']);
 Route::post('hire/upload/cv/{id}', [HireController::class, 'updateCV']);
+
 Route::get('hire', [HireController::class, 'index']);
+Route::get('hire/jobs/business/{idJob}', [HireController::class, 'hireOfBusiness']);

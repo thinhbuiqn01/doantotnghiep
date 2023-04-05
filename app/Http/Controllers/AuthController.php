@@ -201,7 +201,7 @@ class AuthController extends Controller
 
     public function getBusiness($id)
     {
-        $business = Business::find($id);
+        $business = Business::where('user_id', '=', $id)->get();
         return response([
             'business' => $business
         ]);
