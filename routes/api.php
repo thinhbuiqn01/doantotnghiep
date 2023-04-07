@@ -4,6 +4,7 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\HireController;
+use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TechnologyController;
@@ -111,3 +112,8 @@ Route::post('hire/upload/cv/{id}', [HireController::class, 'updateCV']);
 
 Route::get('hire', [HireController::class, 'index']);
 Route::get('hire/jobs/business/{idJob}', [HireController::class, 'hireOfBusiness']);
+
+
+Route::post('history/new', [HistoryController::class, 'store']);
+Route::get('history/get/{userId}', [HistoryController::class, 'show']);
+Route::delete('history/delete/{id}', [HistoryController::class, 'destroy']);
