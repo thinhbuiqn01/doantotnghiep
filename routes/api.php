@@ -114,6 +114,6 @@ Route::get('hire', [HireController::class, 'index']);
 Route::get('hire/jobs/business/{idJob}', [HireController::class, 'hireOfBusiness']);
 
 
-Route::post('history/new', [HistoryController::class, 'store']);
+Route::post('history/add', [HistoryController::class, 'store']);
 Route::get('history/get/{userId}', [HistoryController::class, 'show']);
 Route::delete('history/delete/{id}', [HistoryController::class, 'destroy']);

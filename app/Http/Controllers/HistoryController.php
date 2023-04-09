@@ -44,7 +44,7 @@ class HistoryController extends Controller
      */
     public function show($userId)
     {
-        $history = History::where('user_id', '=', $userId)->get();
+        $history = History::where('user_id', '=', $userId)->limit(10)->orderBy('created_at', 'DESC')->get();
         return response($history);
     }
 

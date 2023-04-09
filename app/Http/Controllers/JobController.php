@@ -19,7 +19,7 @@ class JobController extends Controller
      */
     public function index()
     {
-        $jobs = Job::all();
+        $jobs = Job::orderBy('created_at', 'desc')->get();
         if ($jobs) {
             return response([
                 'jobs' => $jobs,
@@ -34,7 +34,7 @@ class JobController extends Controller
     public function jobOfBusiness($id)
     {
         $jobs = Job::where('business_id', '=', $id)->get();
-        
+
         return response($jobs);
     }
 
@@ -67,7 +67,7 @@ class JobController extends Controller
 
     public function jobsConfirm()
     {
-        $jobs = Job::where('status', '=', 1)->get();
+        $jobs = Job::where('status', '=', 1)->orderBy('created_at', 'desc')->get();
         return response([
             'jobs' => $jobs
         ]);
@@ -75,7 +75,7 @@ class JobController extends Controller
 
     public function jobFull()
     {
-        $jobs = Job::join('businesses', 'businesses.id', '=', 'jobs.business_id')->get();
+        $jobs = Job::join('businesses', 'businesses.id', '=', 'jobs.business_id')->orderBy('jobs.created_at', 'desc')->get();
         return response($jobs);
     }
 
@@ -127,7 +127,7 @@ class JobController extends Controller
      */
     public function show($job)
     {
-        $jobs = Job::where('user_id', $job)->get();
+        $jobs = Job::where('user_id', $job)->orderBy('updated_at', 'desc')->get();
         if ($jobs) {
             return response([
                 'data' => 'Hiện công ty chưa có bài tuyển nào'

@@ -23,7 +23,7 @@ class BusinessController extends Controller
             ->join('jobs', 'jobs.business_id', '=', 'businesses.id')
             ->select(DB::raw('businesses.id, businesses.name, businesses.image, businesses.description, businesses.location, businesses.image , COUNT(jobs.business_id) AS total_job'))
             ->groupBy('businesses.id')
-            ->orderBy('jobs.business_id')
+            ->orderBy('jobs.business_id', 'DESC')
             ->get();
 
         return response($businesses);
@@ -53,7 +53,7 @@ class BusinessController extends Controller
     public function allInformation($id)
     {
         $business = Business::find($id);
-        $jobs = Job::where('business_id', '=', $id)->get();
+        $jobs = Job::where('business_id', '=', $id)->orderBy('updated_at', 'desc')->get();
         return response([
             'business' => $business,
             'jobs' =>  $jobs
