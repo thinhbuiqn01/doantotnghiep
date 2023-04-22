@@ -69,7 +69,10 @@ class BusinessController extends Controller
      */
     public function store(Request $request)
     {
+
         $info = $request->all();
+        $filename = time() . rand(3, 9) . '.' .  $info['image']->getClientOriginalExtension();
+        $info['image']->move('uploads/', $filename);
         $data = Business::create([
             "name" =>  $info['name'],
             "scales" =>  $info['scales'],
@@ -77,10 +80,10 @@ class BusinessController extends Controller
             "location" =>  $info['location'],
             "link_website" =>  $info['link_website'],
             "task" =>  $info['task'],
-            "image" => '',
+            "image" => $filename,
             "user_id" =>  $info['user_id'],
         ]);
-        //return response($info);
+        return response($data);
     }
     public function storeImage(Request $request, $id)
     {
