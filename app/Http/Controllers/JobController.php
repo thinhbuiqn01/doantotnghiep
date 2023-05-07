@@ -75,7 +75,9 @@ class JobController extends Controller
 
     public function jobFull()
     {
-        $jobs = Job::join('businesses', 'businesses.id', '=', 'jobs.business_id')->orderBy('jobs.created_at', 'desc')->get();
+        $jobs = Job::join('businesses', 'businesses.id', '=', 'jobs.business_id')
+            ->orderBy('jobs.created_at', 'desc')
+            ->get();
         return response($jobs);
     }
 
