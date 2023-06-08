@@ -7,8 +7,10 @@ use App\Http\Requests\StoreJobRequest;
 use App\Http\Requests\UpdateJobRequest;
 use App\Models\Business;
 use App\Models\Notification;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class JobController extends Controller
 {
@@ -67,7 +69,14 @@ class JobController extends Controller
 
     public function jobsConfirm()
     {
-        $jobs = Job::where('status', '=', 1)->orderBy('created_at', 'desc')->get();
+        $jobs = DB::table('jobs')
+            ->where('jobs.status', '=', 1)
+            ->join('businesses', 'businesses.id', '=', 'jobs.business_id')
+            ->select(
+                'jobs.*',
+                'businesses.image',
+            )
+            ->orderBy('jobs.created_at', 'desc')->get();
         return response([
             'jobs' => $jobs
         ]);
@@ -105,6 +114,53 @@ class JobController extends Controller
         return response([
             'data' => $data
         ]);
+    }
+
+    public function topStudentHire()
+    {
+
+        $user = DB::table('hires')
+            ->join('users', 'users.id', '=', 'hires.user_id')
+            ->select(
+                'hires.id',
+                'hires.job_id',
+                'hires.user_id',
+                'users.email',
+                'users.name',
+                DB::raw('COUNT(*) as count')
+            )
+            ->groupBy('hires.user_id')
+            ->get();
+        return response($user);
+    }
+
+    public function topHirePost()
+    {
+        $post = DB::table('hires')
+            ->join('jobs', 'jobs.id', '=', 'hires.job_id')
+            ->select(
+                'hires.id',
+                'hires.job_id',
+                'hires.business_id',
+                'hires.job_id',
+                'jobs.location',
+                'jobs.name_job',
+                'jobs.created_at as ngayDang',
+                DB::raw('COUNT(*) as count')
+            )
+            ->groupBy('hires.job_id')
+            ->get();
+        return response($post);
+    }
+
+    public function topHireBusiness()
+    {
+        $post = DB::table('jobs')
+            ->join('businesses', 'businesses.id', '=', 'jobs.business_id')
+            ->select('businesses.id', 'jobs.business_id', 'businesses.location', 'businesses.name', DB::raw('COUNT(*) as count'))
+            ->groupBy('jobs.business_id')
+            ->get();
+        return response($post);
     }
 
     public function editStatusJob(Request $request, $idJob)

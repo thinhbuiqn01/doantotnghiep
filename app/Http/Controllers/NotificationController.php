@@ -87,6 +87,35 @@ class NotificationController extends Controller
         //
     }
 
+    public function showNotify($idUser)
+    {
+        $notify = Notification::where('id_user', $idUser)->get();
+        return response($notify);
+    }
+
+    public function addNotify(Request $request)
+    {
+        $nofity = Notification::create([
+            'user_id' => $request['user_id'],
+            'job_id' => $request['job_id'],
+            'user_id' => $request['user_id'],
+            'description' => $request['description'],
+            'status' => $request['status'],
+        ]);
+        return response([
+            'message' => 'success',
+        ]);
+    }
+
+    public function destroyNotify($id)
+    {
+        $inform = Notification::find($id);
+        $inform->delete();
+        return response([
+            "message" => "success"
+        ]);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

@@ -73,6 +73,12 @@ Route::post('technologies/create', [TechnologyController::class, 'store']);
 Route::post('technologies/image-store/{id}', [TechnologyController::class, 'storeImage']);
 
 
+/* Notify */
+Route::post('notifyAddOrUpdate', [NotificationController::class, 'addNotify']);
+Route::get('notifyShow/{idUser}', [NotificationController::class, 'showNotify']);
+Route::post('notifyDestroy/{id}', [NotificationController::class, 'destroyNotify']);
+
+
 /* Business */
 
 Route::get('business/{id}', [AuthController::class, 'getBusiness']);
@@ -90,7 +96,9 @@ Route::get('jobs-full', [JobController::class, 'jobFull']);
 
 /* Jobs of Business */
 Route::get('business/jobs/{id}', [JobController::class, 'jobOfBusiness']);
-
+Route::get('topStudentHire', [JobController::class, 'topStudentHire']);
+Route::get('top-hire-post', [JobController::class, 'topHirePost']);
+Route::get('top-hire-business', [JobController::class, 'topHireBusiness']);
 
 Route::get('jobs', [JobController::class, 'index']);
 Route::get('job-by-id-business/{id}', [JobController::class, 'jobByBusiness']);
@@ -112,8 +120,13 @@ Route::post('hire/upload/cv/{id}', [HireController::class, 'updateCV']);
 
 Route::get('hire', [HireController::class, 'index']);
 Route::get('hire/jobs/business/{idJob}', [HireController::class, 'hireOfBusiness']);
-
+Route::post('hireStatusStudent', [HireController::class, 'hireStatusStudent']);
 
 Route::post('history/add', [HistoryController::class, 'store']);
 Route::get('history/get/{userId}', [HistoryController::class, 'show']);
 Route::delete('history/delete/{id}', [HistoryController::class, 'destroy']);
+
+
+Route::get('export-top-student-hire/{idStudent}', [HireController::class, 'exportTopStudentHire']);
+Route::get('export-top-business-hire/{idBusiness}', [HireController::class, 'exportTopBusinessHire']);
+Route::get('export-top-job-hire/{idJob}', [HireController::class, 'exportTopJobHire']);
