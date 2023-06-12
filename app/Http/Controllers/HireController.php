@@ -143,7 +143,8 @@ class HireController extends Controller
                 'hires.email_student',
                 'hires.name_student',
                 'hires.created_at as ngayUngTuyen',
-                'jobs.created_at as ngayDang'
+                'jobs.created_at as ngayDang',
+                'hires.status'
             )
             ->orderBy('hires.created_at', 'DESC')
             ->get();
